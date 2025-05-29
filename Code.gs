@@ -28,7 +28,7 @@ function processNewEmails() {
 
         sendGitHubDispatch(jobTitle, jobRef, klantNaam);
       }
-      message.markRead();
+      //message.markRead();
     }
   }
 }
