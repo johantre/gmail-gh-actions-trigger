@@ -5,31 +5,38 @@ const WORKFLOW_FILENAME = 'generate-send-email.yml';
 const BRANCH = 'master';
 
 function processNewEmails() {
-  const threads = GmailApp.search('is:unread subject:"Connecting-Expertise notificaties"', 0, 10);
-  const regex = / U ontving een aanvraag voor een (.+?) (\S+?) - .*? - van (.+?) te/g;
+  const threads = GmailApp.search('is:unread subject:"Connecting-Expertise notificaties"', 0, 30);
+  const regexes = [
+    / U ontving een aanvraag voor een (.+?) (\S+?) - .*? - van (.+?) te/g,
+    / De aanvraag (.+?) (\S+?) .*? van (.+?) werd gewijzigd/g
+  ];
 
   for (const thread of threads) {
     const messages = thread.getMessages();
     for (const message of messages) {
       const body = message.getPlainBody();
-      let match;
-
-      while ((match = regex.exec(body)) !== null) {
-        const jobTitle = match[1].trim();
-        const jobRef = match[2].trim();
-        const klantNaam = match[3].trim();
-
-        if (!/scrum|agile/i.test(jobTitle)) {
-          Logger.log(`Job "${jobTitle}" ❌ ignored! (no scrum/agile found in jobTitle).`);
-          continue;
-        } else {
-          Logger.log(`Job "${jobTitle}" ✅ found! (scrum/agile found in jobTitle).`);
-        }
-
-        sendGitHubDispatch(jobTitle, jobRef, klantNaam);
+      for (const regex of regexes) {
+        regexMatcher(body, regex);
       }
-      //message.markRead();
+      // message.markRead();
     }
+  }
+}
+
+function regexMatcher(body, regex) {
+  let match;
+  while ((match = regex.exec(body)) !== null) {
+    const jobTitle = match[1].trim();
+    const jobRef = match[2].trim();
+    const klantNaam = match[3].trim();
+
+    if (!/scrum|agile/i.test(jobTitle)) {
+      Logger.log(`Job "${jobTitle}" ❌ ignored! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
+      continue;
+    }
+
+    Logger.log(`Job "${jobTitle}" ✅ found! (scrum/agile found in jobTitle) for pattern "${regex}"`);
+    sendGitHubDispatch(jobTitle, jobRef, klantNaam);
   }
 }
 
