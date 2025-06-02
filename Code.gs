@@ -30,7 +30,7 @@ function regexMatcher(body, regex) {
     const jobRef = match[2].trim();
     const klantNaam = match[3].trim();
 
-    if (!/scrum|agile/i.test(jobTitle)) {
+    if (!/scrum|agile|coach/i.test(jobTitle)) {
       Logger.log(`Job "${jobTitle}" ❌ ignored! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
       continue;
     }
