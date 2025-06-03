@@ -16,16 +16,20 @@ function processNewEmails() {
     for (const message of messages) {
       const body = message.getPlainBody();
       for (const regex of regexes) {
-        regexMatcher(body, regex);
+        regexMatcher(body, regex, message);
       }
-      // message.markRead();
+      message.markRead();
     }
   }
 }
 
-function regexMatcher(body, regex) {
+function regexMatcher(body, regex, message) {
   let match;
+
   while ((match = regex.exec(body)) !== null) {
+    if (!message.isInInbox()) {
+      continue;
+    }
     const jobTitle = match[1].trim();
     const jobRef = match[2].trim();
     const klantNaam = match[3].trim();
@@ -36,6 +40,7 @@ function regexMatcher(body, regex) {
     }
 
     Logger.log(`Job "${jobTitle}" ✅ found! (scrum/agile found in jobTitle) for pattern "${regex}"`);
+    labelEmail(message);
     sendGitHubDispatch(jobTitle, jobRef, klantNaam);
   }
 }
@@ -52,6 +57,17 @@ function sanitizeKlantNaam(input) {
   if (!input) return '';
   const noBraces = input.replace(/\s*\(.*?\)\s*/g, '');
   return sanitizeFilename(noBraces);
+}
+
+function labelEmail(message) {
+  const labelName = 'ConnXpt/Processed';
+  const label = GmailApp.getUserLabelByName(labelName);
+
+  if (label) {
+    message.getThread().addLabel(label);
+  } else {
+    Logger.log(`Label "${labelName}" bestaat niet.`);
+  }
 }
 
 function sendGitHubDispatch(klantJobTitle, klantJobReference, klantNaam) {
