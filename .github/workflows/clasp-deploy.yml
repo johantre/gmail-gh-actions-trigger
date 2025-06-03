@@ -27,7 +27,7 @@ jobs:
       - name: Authenticate clasp with service account
         run: |
           echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
-          clasp login --service-account --creds creds.json
+          clasp login --creds creds.json
 
       - name: Push to Google Apps Script
         run: clasp push
