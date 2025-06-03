@@ -11,3 +11,4 @@ If the conditions are met, a GitHub Actions workflow from the [msword-properties
 ## Future enhancements
 
 - remove the hard coded mail address
+
