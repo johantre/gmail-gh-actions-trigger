@@ -23,7 +23,7 @@ jobs:
 
       - name: Authenticate clasp with service account
         run: |
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS }}" > creds.json
+          printf '%s' "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS }}" > creds.json
           clasp login --creds creds.json
 
       - name: Push to Google Apps Script
