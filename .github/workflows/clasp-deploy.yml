@@ -1,0 +1,30 @@
+name: Deploy to Google Apps Script
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Authenticate clasp with service account
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS }}" > creds.json
+          clasp login --creds creds.json
+
+      - name: Push to Google Apps Script
+        run: clasp push
