@@ -18,16 +18,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install clasp
+      - name: Remove existing clasp (if any)
+        run: npm uninstall -g @google/clasp || true
+
+      - name: Install clasp with service account support
         run: npm install -g @google/clasp@3.0.6-alpha
 
       - name: Check clasp version
         run: clasp --version
 
+      - name: Decode service account credentials
+        run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
+
       - name: Authenticate clasp with service account
-        run: |
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
-          clasp login --service-account --creds creds.json
+        run: clasp login --service-account --creds creds.json
 
       - name: Push to Google Apps Script
         run: clasp push
