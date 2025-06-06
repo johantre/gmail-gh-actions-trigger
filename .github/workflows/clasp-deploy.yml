@@ -24,6 +24,12 @@ jobs:
       - name: Install clasp with service account support
         run: npm install -g @google/clasp@3.0.6-alpha
 
+      - name: Locate clasp global bin folder
+        run: npm bin -g
+
+      - name: Show clasp executable path
+        run: which clasp && clasp --version
+
       - name: Check clasp version
         run: clasp --version
 
