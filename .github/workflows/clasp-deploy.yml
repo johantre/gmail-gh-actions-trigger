@@ -18,16 +18,17 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install latest clasp
-        run: npm install -g @google/clasp@2.5.0
+      - name: Install clasp v2.4.2 (stable with --creds support)
+        run: npm install -g @google/clasp@2.4.2
 
       - name: Check clasp version
         run: clasp --version
 
-      - name: Authenticate clasp with service account
-        run: |
-          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
-          clasp login --creds creds.json
+      - name: Decode and write credentials file
+        run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
+
+      - name: Authenticate with service account
+        run: clasp login --creds creds.json
 
       - name: Push to Google Apps Script
         run: clasp push
