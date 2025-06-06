@@ -1,0 +1,36 @@
+name: Deploy GAS with service account
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install google-auth
+
+      - name: Decode service account JSON and set env
+        run: echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}" | base64 -d > creds.json
+        # lees ook in env variable:
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDS_B64 }}
+
+      - name: Get access token
+        id: get_token
+        run: |
+          token=$(python .github/scripts/get_gas_token.py)
+          echo "token=$token" >> $GITHUB_OUTPUT
+
+      - name: Show token (debug, verwijder later!)
+        run: echo "Token is ${{ steps.get_token.outputs.token }}"
