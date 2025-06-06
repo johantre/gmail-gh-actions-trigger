@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Upgrade npm to latest
+        run: npm install -g npm@latest
+
       - name: Remove existing clasp (if any)
         run: npm uninstall -g @google/clasp || true
 
