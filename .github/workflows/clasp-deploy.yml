@@ -32,5 +32,8 @@ jobs:
       - name: Clasp status
         run: clasp status
 
+      - name: Check content Code.js
+        run: cat Code.js
+
       - name: Deploy with clasp
         run: clasp push
