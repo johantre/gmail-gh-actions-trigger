@@ -19,7 +19,9 @@ This repo itself is hosting the code, and is foreseen with a workflow that pushe
 This tool is not very stable, but the latest version allows you to get your change to Google by means of a "clasp push --force"\
 It requires a github secret with credentials for google to execute though.\
 Acquiring credentials happens by "clasp login" & following browser screen to allow the right permissions.\
-This generates an .clasprc.json, which is to end up in your github secrets to run your workflow properly.
+This generates an .clasprc.json, which is to end up in your github secrets to run your workflow properly.\
+The credentials for clasp in this file can be used throughout all your Google projects, providing you do not want to separate that. 
+Clasp checks at runtime the .clasp.json to figure out where the deploy has to come. 
 
 ## Future enhancements
 
