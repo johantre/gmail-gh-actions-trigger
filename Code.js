@@ -35,11 +35,11 @@ function regexMatcher(body, regex, message) {
     const klantNaam = match[3].trim();
 
     if (!/scrum|agile|coach/i.test(jobTitle)) {
-      Logger.log(`Job "${jobTitle}" ❌ ignored!F*CK! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
+      Logger.log(`Job "${jobTitle}" ❌ ignored!!! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
       continue;
     }
 
-    Logger.log(`Job "${jobTitle}" ✅ found!F*CK! (scrum/agile found in jobTitle) for pattern "${regex}"`);
+    Logger.log(`Job "${jobTitle}" ✅ found!!! (scrum/agile found in jobTitle) for pattern "${regex}"`);
     labelEmail(message);
     sendGitHubDispatch(jobTitle, jobRef, klantNaam);
   }
@@ -72,7 +72,7 @@ function labelEmail(message) {
 
 function sendGitHubDispatch(klantJobTitle, klantJobReference, klantNaam) {
   const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/workflows/${WORKFLOW_FILENAME}/dispatches`;
-
+  
   const payload = JSON.stringify({
     ref: BRANCH,
     inputs: {
@@ -101,3 +101,6 @@ function sendGitHubDispatch(klantJobTitle, klantJobReference, klantNaam) {
   Logger.log(response.getResponseCode());
   Logger.log(response.getContentText());
 }
+
+// CLASP TEST 12-06-2025
+function testClaspDifference() { Logger.log("TEST!"); }
