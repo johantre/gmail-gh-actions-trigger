@@ -36,4 +36,4 @@ jobs:
         run: cat Code.js
 
       - name: Deploy with clasp
-        run: clasp push
+        run: clasp push -f
