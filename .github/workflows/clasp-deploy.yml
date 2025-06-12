@@ -8,39 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fail if secret is missing
-        run: |
-          if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then
-            echo "Secret GCP_SA_KEY is missing!"
-            exit 1
-          fi
-
-      - name: Create service account key file
-        run: echo "${{ secrets.GCP_SA_KEY_IK_LUL_MAAR_EEN_BEETJE }}" | base64 -d > $HOME/gcp-key.json
-
-      - name: Check JSON file
-        run: |
-          cat $HOME/gcp-key.json
-          jq . $HOME/gcp-key.json        
-
-      - name: DEBUG - Show JSON keys
-        run: |
-          cat $HOME/gcp-key.json
-          jq 'keys' $HOME/gcp-key.json
-
-      - name: Push code to Google Apps Script with clasp-action
-        uses: daikikatsuragawa/clasp-action@v1.2.0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          scriptId: ${{ secrets.GCP_SCRIPT_ID }}
-          command: 'push'
+          node-version: '20'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Authenticate clasp
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/test.json
+          GCP_CLASP_TOKEN: ${{ secrets.GCP_CLASP_TOKEN }}
+        run: |
+          echo "$GCP_CLASP_TOKEN" > ~/.clasprc.json
+
+      - name: Deploy with clasp
+        run: clasp push
