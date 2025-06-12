@@ -35,11 +35,11 @@ function regexMatcher(body, regex, message) {
     const klantNaam = match[3].trim();
 
     if (!/scrum|agile|coach/i.test(jobTitle)) {
-      Logger.log(`Job "${jobTitle}" ❌ ignored!! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
+      Logger.log(`Job "${jobTitle}" ❌ ignored!F*CK! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
       continue;
     }
 
-    Logger.log(`Job "${jobTitle}" ✅ found!! (scrum/agile found in jobTitle) for pattern "${regex}"`);
+    Logger.log(`Job "${jobTitle}" ✅ found!F*CK! (scrum/agile found in jobTitle) for pattern "${regex}"`);
     labelEmail(message);
     sendGitHubDispatch(jobTitle, jobRef, klantNaam);
   }

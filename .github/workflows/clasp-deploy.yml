@@ -26,5 +26,11 @@ jobs:
         run: |
           echo "$GCP_CLASP_TOKEN" > ~/.clasprc.json
 
+      - name: Toon directory inhoud
+        run: ls -l
+
+      - name: Clasp status
+        run: clasp status
+
       - name: Deploy with clasp
         run: clasp push
