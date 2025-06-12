@@ -101,6 +101,3 @@ function sendGitHubDispatch(klantJobTitle, klantJobReference, klantNaam) {
   Logger.log(response.getResponseCode());
   Logger.log(response.getContentText());
 }
-
-// CLASP TEST 12-06-2025
-function testClaspDifference() { Logger.log("TEST!"); }
