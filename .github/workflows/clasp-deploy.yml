@@ -18,7 +18,7 @@ jobs:
           node-version: '20'
 
       - name: Install clasp
-        run: npm install -g @google/clasp@2.5.0
+        run: npm install -g @google/clasp
 
       - name: Authenticate clasp
         env:
@@ -27,4 +27,4 @@ jobs:
           echo "$GCP_CLASP_TOKEN" > ~/.clasprc.json
 
       - name: Deploy with clasp
-        run: clasp push -f
+        run: clasp push --force
