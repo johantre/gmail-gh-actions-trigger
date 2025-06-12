@@ -1,2 +1,4 @@
 /gmail-gh-actions-trigger-*.json
+/client_secret*.json
 /encoded.txt
+/.clasprc.json
