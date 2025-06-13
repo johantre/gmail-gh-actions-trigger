@@ -22,6 +22,7 @@ Acquiring credentials happens by "clasp login" & following browser screen to all
 This generates an .clasprc.json, which is to end up in your github secrets to run your workflow properly.\
 The credentials for clasp in this file can be used throughout all your Google projects, providing you do not want to separate that. 
 Clasp checks at runtime the .clasp.json to figure out where the deploy has to come. 
+- For local purposes and controlling versions of mpn, nvm. 
 
 ## Future enhancements
 
