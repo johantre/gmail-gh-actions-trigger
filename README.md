@@ -1,6 +1,6 @@
 # Gmail GitHub Actions trigger
 This is a small script to build in Google Workspace that can be used to poll if there are new mails are incoming that meets certain conditions.
-If the conditions are met, a GitHub Actions workflow from the [msword-properties-generator](https://github.com/johantre/msword-properties-generator) repo is triggered that generates the necessary document pair.\
+If the conditions are met, a GitHub Actions workflow from the [msword-properties-generator](https://github.com/johantre/msword-properties-generator) repo is triggered that generates the necessary document pair.
 
 This repo itself is hosting the code, and is foreseen with a workflow that pushes your changes to your Google Apps Script environment. 
 
