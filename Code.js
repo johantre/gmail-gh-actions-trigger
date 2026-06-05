@@ -23,6 +23,8 @@ function processNewEmails() {
   }
 }
 
+const SEARCH_TERMS = ['scrum', 'agile', 'coach', 'facilitator', 'test'];
+
 function regexMatcher(body, regex, message) {
   let match;
 
@@ -34,12 +36,13 @@ function regexMatcher(body, regex, message) {
     const jobRef = match[2].trim();
     const klantNaam = match[3].trim();
 
-    if (!/scrum|agile|coach|facilitator/i.test(jobTitle)) {
-      Logger.log(`Job "${jobTitle}" ❌ ignored!! (no scrum/agile found in jobTitle) for pattern "${regex}"`);
+    const matchedTerm = SEARCH_TERMS.find(t => new RegExp(t, 'i').test(jobTitle));
+    if (!matchedTerm) {
+      Logger.log(`Job "${jobTitle}" ❌ ignored!! (none of: ${SEARCH_TERMS.join(', ')} found in jobTitle) for pattern "${regex}"`);
       continue;
     }
 
-    Logger.log(`Job "${jobTitle}" ✅ found!! (scrum/agile found in jobTitle) for pattern "${regex}"`);
+    Logger.log(`Job "${jobTitle}" ✅ found!! ("${matchedTerm}" found in jobTitle) for pattern "${regex}"`);
     labelEmail(message);
     sendGitHubDispatch(jobTitle, jobRef, klantNaam);
   }
