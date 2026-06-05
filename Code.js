@@ -14,6 +14,7 @@ function processNewEmails() {
   for (const thread of threads) {
     const messages = thread.getMessages();
     for (const message of messages) {
+      if (!message.isUnread()) continue;
       const body = message.getPlainBody();
       for (const regex of regexes) {
         regexMatcher(body, regex, message);
