@@ -84,7 +84,7 @@ function sendGitHubDispatch(klantJobTitle, klantJobReference, klantNaam) {
       klantJobTitle: sanitizeFilename(klantJobTitle),
       klantJobReference: sanitizeFilename(klantJobReference),
       sendEmail: true,
-      leverancierEmail: 'johan.tre@telenet.be',
+      leverancierEmail: 'johan.tre@gmail.be',
       uploadDropbox: true,
       setLogLevelDebug: false
     }
